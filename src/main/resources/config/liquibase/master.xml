@@ -11,6 +11,12 @@
     <property name="datetimeType" value="datetime" dbms="oracle"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240527111952_added_entity_RvpApilodging.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240527111953_added_entity_RvpApiResponse.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240527111954_added_entity_RvpApiLodgingCqi.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240527111955_added_entity_RvpApiGlobalReview.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240527111956_added_entity_RvpApiLodgingScore.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240527111957_added_entity_RvpApiSurvey.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->

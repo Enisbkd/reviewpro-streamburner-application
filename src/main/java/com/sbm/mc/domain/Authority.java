@@ -13,7 +13,7 @@ import org.springframework.data.domain.Persistable;
  * A Authority.
  */
 @Entity
-@Table(name = "jhi_authority")
+@Table(name = "jhi_authority_reviewpro")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @JsonIgnoreProperties(value = { "new", "id" })
 @SuppressWarnings("common-java:DuplicatedBlocks")

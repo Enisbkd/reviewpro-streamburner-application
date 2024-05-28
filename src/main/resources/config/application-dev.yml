@@ -32,15 +32,16 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:oracle:thin:@localhost:1521:xe
+    url: jdbc:oracle:thin:@localhost:1522:xe
     username: system
     password: oracle
     hikari:
       poolName: Hikari
       auto-commit: false
   liquibase:
-    # Remove 'faker' if you do not want the sample data to be loaded automatically
-    contexts: dev, faker
+    contexts: dev
+    databaseChangeLogTable: RVP_API_DATABASECHANGELOG
+    databaseChangeLogLockTable: RVP_API_DATABASECHANGELOGLOCK
   mail:
     host: localhost
     port: 25
@@ -50,6 +51,16 @@ spring:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
     cache: false
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    properties:
+      application.id: dev_reviewpro
+      security.protocol: 'PLAINTEXT'
+      sasl.mechanism: ''
+      sasl.jaas.config: ''
+      ssl.sslTruststoreLocation: ''
+      ssl.sslTruststorePassword: ''
 
 server:
   port: 5050

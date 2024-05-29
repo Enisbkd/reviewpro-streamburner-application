@@ -10,7 +10,6 @@ import org.apache.kafka.streams.kstream.KStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,30 +34,52 @@ public class StreamsProcessor {
     //    @Value(value = "${spring.kafka.topics.venue-topic}")
     //    private String venueTopic;
 
-    private final GlobalReviewPersistenceService globalReviewPersistenceService;
+    private final PersistenceService persistenceService;
 
-    public StreamsProcessor(GlobalReviewPersistenceService globalReviewPersistenceService) {
-        this.globalReviewPersistenceService = globalReviewPersistenceService;
+    public StreamsProcessor(PersistenceService persistenceService) {
+        this.persistenceService = persistenceService;
     }
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
+        logger.debug("Launching Streams ....");
+
         KStream<String, RvpApiGlobalReview> globalReviewKStream = streamsBuilder.stream(
             "data-reviewpro-global-review",
             Consumed.with(STRING_SERDE, GLOBAL_REVIEW_SERDE)
         );
-        globalReviewKStream.foreach((key, globalReview) -> globalReviewProcessor(globalReview));
-    }
+        globalReviewKStream.foreach((key, globalReview) -> {
+            persistenceService.upsertGlobalReview(globalReview);
+        });
 
-    private void globalReviewProcessor(RvpApiGlobalReview globalReview) {
-        try {
-            if (globalReview != null) {
-                globalReviewPersistenceService.upsertGlobalReview(globalReview);
-            } else {
-                logger.info("GlobalReview Null , Aborting ...");
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e.getClass());
-        }
+        KStream<String, RvpApilodging> lodgingStream = streamsBuilder.stream(
+            "data-reviewpro-lodgings",
+            Consumed.with(STRING_SERDE, LODGING_SERDE)
+        );
+        lodgingStream.foreach((key, globalReview) -> persistenceService.upsertlodging(globalReview));
+
+        KStream<String, RvpApiLodgingCqi> lodgingCqiStream = streamsBuilder.stream(
+            "data-reviewpro-lodgingCqis",
+            Consumed.with(STRING_SERDE, LODGING_CQI_SERDE)
+        );
+        lodgingCqiStream.foreach((key, globalReview) -> persistenceService.upsertlodgingCqi(globalReview));
+
+        KStream<String, RvpApiLodgingScore> lodgingScoreStream = streamsBuilder.stream(
+            "data-reviewpro-lodgingScores",
+            Consumed.with(STRING_SERDE, LODGING_SCORE_SERDE)
+        );
+        lodgingScoreStream.foreach((key, globalReview) -> persistenceService.upsertlodgingScore(globalReview));
+
+        KStream<String, RvpApiResponse> responseStream = streamsBuilder.stream(
+            "data-reviewpro-responses",
+            Consumed.with(STRING_SERDE, RVP_API_RESPONSE_SERDE)
+        );
+        responseStream.foreach((key, globalReview) -> persistenceService.upsertResponse(globalReview));
+
+        KStream<String, RvpApiSurvey> surveyStream = streamsBuilder.stream(
+            "data-reviewpro-surveys",
+            Consumed.with(STRING_SERDE, RVP_API_SURVEY_SERDE)
+        );
+        surveyStream.foreach((key, globalReview) -> persistenceService.upsertSurvey(globalReview));
     }
 }

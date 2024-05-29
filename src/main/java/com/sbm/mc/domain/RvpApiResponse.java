@@ -39,9 +39,6 @@ public class RvpApiResponse implements Serializable {
     @Column(name = "plantorevisit")
     private Boolean plantorevisit;
 
-    @Column(name = "jhi_label")
-    private String label;
-
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Integer getId() {
@@ -135,21 +132,6 @@ public class RvpApiResponse implements Serializable {
         this.plantorevisit = plantorevisit;
     }
 
-    public String getLabel() {
-        return this.label;
-    }
-
-    public RvpApiResponse label(String label) {
-        this.setLabel(label);
-        return this;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -178,7 +160,6 @@ public class RvpApiResponse implements Serializable {
             ", overallsatsifaction=" + getOverallsatsifaction() +
             ", customScore=" + getCustomScore() +
             ", plantorevisit='" + getPlantorevisit() + "'" +
-            ", label='" + getLabel() + "'" +
             "}";
     }
 }

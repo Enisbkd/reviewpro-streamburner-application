@@ -63,9 +63,6 @@ public class RvpApiResponseServiceImpl implements RvpApiResponseService {
                 if (rvpApiResponse.getPlantorevisit() != null) {
                     existingRvpApiResponse.setPlantorevisit(rvpApiResponse.getPlantorevisit());
                 }
-                if (rvpApiResponse.getLabel() != null) {
-                    existingRvpApiResponse.setLabel(rvpApiResponse.getLabel());
-                }
 
                 return existingRvpApiResponse;
             })

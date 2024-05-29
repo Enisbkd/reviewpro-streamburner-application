@@ -1,5 +1,6 @@
 package com.sbm.mc.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -21,15 +22,18 @@ public class RvpApiLodgingCqi implements Serializable {
 
     @Id
     @Column(name = "id")
+    @JsonProperty("tech_id")
     private Integer id;
 
     @Column(name = "lodging_id")
+    @JsonProperty("id")
     private Integer lodgingId;
 
     @Column(name = "average_current_period")
     private String averageCurrentPeriod;
 
     @Column(name = "tendancy")
+    @JsonProperty("tendency")
     private String tendancy;
 
     @Column(name = "jhi_change")

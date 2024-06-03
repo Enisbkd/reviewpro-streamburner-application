@@ -32,7 +32,7 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:oracle:thin:@localhost:1522:xe
+    url: jdbc:oracle:thin:@localhost:1521:xe
     username: system
     password: oracle
     hikari:
@@ -61,6 +61,14 @@ spring:
       sasl.jaas.config: ''
       ssl.sslTruststoreLocation: ''
       ssl.sslTruststorePassword: ''
+
+    topics:
+      global-reviews-topic: data-reviewpro-global-review
+      lodgings-topic: data-reviewpro-lodgings
+      lodging-cqis-topic: data-reviewpro-lodgingCqis
+      lodging-scores-topic: data-reviewpro-lodgingScores
+      responses-topic: data-reviewpro-responses
+      surveys-topic: data-reviewpro-surveys
 
 server:
   port: 5050

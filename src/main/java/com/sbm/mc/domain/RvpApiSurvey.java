@@ -17,6 +17,7 @@ public class RvpApiSurvey implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue
     @Column(name = "id")
     private String id;
 

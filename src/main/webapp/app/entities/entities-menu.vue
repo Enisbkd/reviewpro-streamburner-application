@@ -24,6 +24,10 @@
       <font-awesome-icon icon="asterisk" />
       <span v-text="t$('global.menu.entities.rvpApiSurvey')"></span>
     </b-dropdown-item>
+    <b-dropdown-item to="/rvp-api-management-response">
+      <font-awesome-icon icon="asterisk" />
+      <span v-text="t$('global.menu.entities.rvpApiManagementResponse')"></span>
+    </b-dropdown-item>
     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
   </div>
 </template>

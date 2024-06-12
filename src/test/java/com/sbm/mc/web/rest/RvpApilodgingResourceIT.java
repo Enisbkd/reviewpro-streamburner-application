@@ -13,6 +13,7 @@ import com.sbm.mc.domain.RvpApilodging;
 import com.sbm.mc.repository.RvpApilodgingRepository;
 import jakarta.persistence.EntityManager;
 import java.util.UUID;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,8 @@ class RvpApilodgingResourceIT {
 
     private RvpApilodging rvpApilodging;
 
+    private RvpApilodging insertedRvpApilodging;
+
     /**
      * Create an entity for this test.
      *
@@ -77,6 +80,14 @@ class RvpApilodgingResourceIT {
         rvpApilodging = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedRvpApilodging != null) {
+            rvpApilodgingRepository.delete(insertedRvpApilodging);
+            insertedRvpApilodging = null;
+        }
+    }
+
     @Test
     @Transactional
     void createRvpApilodging() throws Exception {
@@ -95,6 +106,8 @@ class RvpApilodgingResourceIT {
         // Validate the RvpApilodging in the database
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         assertRvpApilodgingUpdatableFieldsEquals(returnedRvpApilodging, getPersistedRvpApilodging(returnedRvpApilodging));
+
+        insertedRvpApilodging = returnedRvpApilodging;
     }
 
     @Test
@@ -118,7 +131,7 @@ class RvpApilodgingResourceIT {
     @Transactional
     void getAllRvpApilodgings() throws Exception {
         // Initialize the database
-        rvpApilodgingRepository.saveAndFlush(rvpApilodging);
+        insertedRvpApilodging = rvpApilodgingRepository.saveAndFlush(rvpApilodging);
 
         // Get all the rvpApilodgingList
         restRvpApilodgingMockMvc
@@ -133,7 +146,7 @@ class RvpApilodgingResourceIT {
     @Transactional
     void getRvpApilodging() throws Exception {
         // Initialize the database
-        rvpApilodgingRepository.saveAndFlush(rvpApilodging);
+        insertedRvpApilodging = rvpApilodgingRepository.saveAndFlush(rvpApilodging);
 
         // Get the rvpApilodging
         restRvpApilodgingMockMvc
@@ -155,7 +168,7 @@ class RvpApilodgingResourceIT {
     @Transactional
     void putExistingRvpApilodging() throws Exception {
         // Initialize the database
-        rvpApilodgingRepository.saveAndFlush(rvpApilodging);
+        insertedRvpApilodging = rvpApilodgingRepository.saveAndFlush(rvpApilodging);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -235,7 +248,7 @@ class RvpApilodgingResourceIT {
     @Transactional
     void partialUpdateRvpApilodgingWithPatch() throws Exception {
         // Initialize the database
-        rvpApilodgingRepository.saveAndFlush(rvpApilodging);
+        insertedRvpApilodging = rvpApilodgingRepository.saveAndFlush(rvpApilodging);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -266,7 +279,7 @@ class RvpApilodgingResourceIT {
     @Transactional
     void fullUpdateRvpApilodgingWithPatch() throws Exception {
         // Initialize the database
-        rvpApilodgingRepository.saveAndFlush(rvpApilodging);
+        insertedRvpApilodging = rvpApilodgingRepository.saveAndFlush(rvpApilodging);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -347,7 +360,7 @@ class RvpApilodgingResourceIT {
     @Transactional
     void deleteRvpApilodging() throws Exception {
         // Initialize the database
-        rvpApilodgingRepository.saveAndFlush(rvpApilodging);
+        insertedRvpApilodging = rvpApilodgingRepository.saveAndFlush(rvpApilodging);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

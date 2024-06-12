@@ -137,9 +137,11 @@ describe('Service Tests', () => {
       it('should partial update a RvpApiGlobalReview', async () => {
         const patchObject = Object.assign(
           {
+            lodgingid: 1,
             prevGri: 1,
             distribution: 'BBBBBB',
-            gri: 1,
+            fd: dayjs(currentDate).format(DATE_FORMAT),
+            td: dayjs(currentDate).format(DATE_FORMAT),
           },
           new RvpApiGlobalReview(),
         );

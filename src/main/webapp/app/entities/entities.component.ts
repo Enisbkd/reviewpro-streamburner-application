@@ -6,6 +6,7 @@ import RvpApiLodgingCqiService from './rvp-api-lodging-cqi/rvp-api-lodging-cqi.s
 import RvpApiGlobalReviewService from './rvp-api-global-review/rvp-api-global-review.service';
 import RvpApiLodgingScoreService from './rvp-api-lodging-score/rvp-api-lodging-score.service';
 import RvpApiSurveyService from './rvp-api-survey/rvp-api-survey.service';
+import RvpApiManagementResponseService from './rvp-api-management-response/rvp-api-management-response.service';
 import UserService from '@/entities/user/user.service';
 // jhipster-needle-add-entity-service-to-entities-component-import - JHipster will import entities services here
 
@@ -20,6 +21,7 @@ export default defineComponent({
     provide('rvpApiGlobalReviewService', () => new RvpApiGlobalReviewService());
     provide('rvpApiLodgingScoreService', () => new RvpApiLodgingScoreService());
     provide('rvpApiSurveyService', () => new RvpApiSurveyService());
+    provide('rvpApiManagementResponseService', () => new RvpApiManagementResponseService());
     // jhipster-needle-add-entity-service-to-entities-component - JHipster will import entities services here
   },
 });

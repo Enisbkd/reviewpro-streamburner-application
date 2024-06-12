@@ -116,6 +116,8 @@ describe('Service Tests', () => {
           {
             languages: 'BBBBBB',
             name: 'BBBBBB',
+            pids: 'BBBBBB',
+            primary: true,
           },
           new RvpApiSurvey(),
         );

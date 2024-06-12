@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,8 @@ class RvpApiResponseResourceIT {
 
     private RvpApiResponse rvpApiResponse;
 
+    private RvpApiResponse insertedRvpApiResponse;
+
     /**
      * Create an entity for this test.
      *
@@ -115,6 +118,14 @@ class RvpApiResponseResourceIT {
         rvpApiResponse = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedRvpApiResponse != null) {
+            rvpApiResponseRepository.delete(insertedRvpApiResponse);
+            insertedRvpApiResponse = null;
+        }
+    }
+
     @Test
     @Transactional
     void createRvpApiResponse() throws Exception {
@@ -133,6 +144,8 @@ class RvpApiResponseResourceIT {
         // Validate the RvpApiResponse in the database
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         assertRvpApiResponseUpdatableFieldsEquals(returnedRvpApiResponse, getPersistedRvpApiResponse(returnedRvpApiResponse));
+
+        insertedRvpApiResponse = returnedRvpApiResponse;
     }
 
     @Test
@@ -156,7 +169,7 @@ class RvpApiResponseResourceIT {
     @Transactional
     void getAllRvpApiResponses() throws Exception {
         // Initialize the database
-        rvpApiResponseRepository.saveAndFlush(rvpApiResponse);
+        insertedRvpApiResponse = rvpApiResponseRepository.saveAndFlush(rvpApiResponse);
 
         // Get all the rvpApiResponseList
         restRvpApiResponseMockMvc
@@ -177,7 +190,7 @@ class RvpApiResponseResourceIT {
     @Transactional
     void getRvpApiResponse() throws Exception {
         // Initialize the database
-        rvpApiResponseRepository.saveAndFlush(rvpApiResponse);
+        insertedRvpApiResponse = rvpApiResponseRepository.saveAndFlush(rvpApiResponse);
 
         // Get the rvpApiResponse
         restRvpApiResponseMockMvc
@@ -205,7 +218,7 @@ class RvpApiResponseResourceIT {
     @Transactional
     void putExistingRvpApiResponse() throws Exception {
         // Initialize the database
-        rvpApiResponseRepository.saveAndFlush(rvpApiResponse);
+        insertedRvpApiResponse = rvpApiResponseRepository.saveAndFlush(rvpApiResponse);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -292,7 +305,7 @@ class RvpApiResponseResourceIT {
     @Transactional
     void partialUpdateRvpApiResponseWithPatch() throws Exception {
         // Initialize the database
-        rvpApiResponseRepository.saveAndFlush(rvpApiResponse);
+        insertedRvpApiResponse = rvpApiResponseRepository.saveAndFlush(rvpApiResponse);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -300,12 +313,7 @@ class RvpApiResponseResourceIT {
         RvpApiResponse partialUpdatedRvpApiResponse = new RvpApiResponse();
         partialUpdatedRvpApiResponse.setId(rvpApiResponse.getId());
 
-        partialUpdatedRvpApiResponse
-            .surveyId(UPDATED_SURVEY_ID)
-            .lodgingId(UPDATED_LODGING_ID)
-            .date(UPDATED_DATE)
-            .customScore(UPDATED_CUSTOM_SCORE)
-            .plantorevisit(UPDATED_PLANTOREVISIT);
+        partialUpdatedRvpApiResponse.lodgingId(UPDATED_LODGING_ID).date(UPDATED_DATE).plantorevisit(UPDATED_PLANTOREVISIT);
 
         restRvpApiResponseMockMvc
             .perform(
@@ -328,7 +336,7 @@ class RvpApiResponseResourceIT {
     @Transactional
     void fullUpdateRvpApiResponseWithPatch() throws Exception {
         // Initialize the database
-        rvpApiResponseRepository.saveAndFlush(rvpApiResponse);
+        insertedRvpApiResponse = rvpApiResponseRepository.saveAndFlush(rvpApiResponse);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -416,7 +424,7 @@ class RvpApiResponseResourceIT {
     @Transactional
     void deleteRvpApiResponse() throws Exception {
         // Initialize the database
-        rvpApiResponseRepository.saveAndFlush(rvpApiResponse);
+        insertedRvpApiResponse = rvpApiResponseRepository.saveAndFlush(rvpApiResponse);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

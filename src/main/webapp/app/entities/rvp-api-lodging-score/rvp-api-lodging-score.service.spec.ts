@@ -138,9 +138,7 @@ describe('Service Tests', () => {
       it('should partial update a RvpApiLodgingScore', async () => {
         const patchObject = Object.assign(
           {
-            lodgingId: 1,
-            surveyId: 'BBBBBB',
-            customScore: 1,
+            nps: 1,
             fd: dayjs(currentDate).format(DATE_FORMAT),
             td: dayjs(currentDate).format(DATE_FORMAT),
           },

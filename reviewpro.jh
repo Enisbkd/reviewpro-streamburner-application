@@ -63,6 +63,17 @@ entity RvpApiSurvey {
     primary Boolean
 }
 
+entity RvpApiManagementResponse{
+    id Integer
+	source String
+	lodgingId Integer
+	fd LocalDate
+	td LocalDate
+	respondableCountsPositive Integer
+	respondableCountsNegative Integer
+	respondedCountsPositive Integer
+    respondedCountsNegative Integer
+}
 
 
 paginate all with pagination

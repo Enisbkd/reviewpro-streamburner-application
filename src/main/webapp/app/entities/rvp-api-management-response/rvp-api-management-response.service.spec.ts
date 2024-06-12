@@ -3,9 +3,9 @@ import axios from 'axios';
 import sinon from 'sinon';
 import dayjs from 'dayjs';
 
-import RvpApiResponseService from './rvp-api-response.service';
-import { DATE_TIME_FORMAT } from '@/shared/composables/date-format';
-import { RvpApiResponse } from '@/shared/model/rvp-api-response.model';
+import RvpApiManagementResponseService from './rvp-api-management-response.service';
+import { DATE_FORMAT } from '@/shared/composables/date-format';
+import { RvpApiManagementResponse } from '@/shared/model/rvp-api-management-response.model';
 
 const error = {
   response: {
@@ -25,22 +25,23 @@ const axiosStub = {
 };
 
 describe('Service Tests', () => {
-  describe('RvpApiResponse Service', () => {
-    let service: RvpApiResponseService;
+  describe('RvpApiManagementResponse Service', () => {
+    let service: RvpApiManagementResponseService;
     let elemDefault;
     let currentDate: Date;
 
     beforeEach(() => {
-      service = new RvpApiResponseService();
+      service = new RvpApiManagementResponseService();
       currentDate = new Date();
-      elemDefault = new RvpApiResponse(123, 'AAAAAAA', 0, currentDate, 0, 0, false, 'AAAAAAA');
+      elemDefault = new RvpApiManagementResponse(123, 'AAAAAAA', 0, currentDate, currentDate, 0, 0, 0, 0);
     });
 
     describe('Service methods', () => {
       it('should find an element', async () => {
         const returnedFromService = Object.assign(
           {
-            date: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            fd: dayjs(currentDate).format(DATE_FORMAT),
+            td: dayjs(currentDate).format(DATE_FORMAT),
           },
           elemDefault,
         );
@@ -61,17 +62,19 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should create a RvpApiResponse', async () => {
+      it('should create a RvpApiManagementResponse', async () => {
         const returnedFromService = Object.assign(
           {
             id: 123,
-            date: dayjs(currentDate).format(DATE_TIME_FORMAT),
+            fd: dayjs(currentDate).format(DATE_FORMAT),
+            td: dayjs(currentDate).format(DATE_FORMAT),
           },
           elemDefault,
         );
         const expected = Object.assign(
           {
-            date: currentDate,
+            fd: currentDate,
+            td: currentDate,
           },
           returnedFromService,
         );
@@ -82,7 +85,7 @@ describe('Service Tests', () => {
         });
       });
 
-      it('should not create a RvpApiResponse', async () => {
+      it('should not create a RvpApiManagementResponse', async () => {
         axiosStub.post.rejects(error);
 
         return service
@@ -93,23 +96,25 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should update a RvpApiResponse', async () => {
+      it('should update a RvpApiManagementResponse', async () => {
         const returnedFromService = Object.assign(
           {
-            surveyId: 'BBBBBB',
+            source: 'BBBBBB',
             lodgingId: 1,
-            date: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            overallsatsifaction: 1,
-            customScore: 1,
-            plantorevisit: true,
-            label: 'BBBBBB',
+            fd: dayjs(currentDate).format(DATE_FORMAT),
+            td: dayjs(currentDate).format(DATE_FORMAT),
+            respondableCountsPositive: 1,
+            respondableCountsNegative: 1,
+            respondedCountsPositive: 1,
+            respondedCountsNegative: 1,
           },
           elemDefault,
         );
 
         const expected = Object.assign(
           {
-            date: currentDate,
+            fd: currentDate,
+            td: currentDate,
           },
           returnedFromService,
         );
@@ -120,7 +125,7 @@ describe('Service Tests', () => {
         });
       });
 
-      it('should not update a RvpApiResponse', async () => {
+      it('should not update a RvpApiManagementResponse', async () => {
         axiosStub.put.rejects(error);
 
         return service
@@ -131,22 +136,21 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should partial update a RvpApiResponse', async () => {
+      it('should partial update a RvpApiManagementResponse', async () => {
         const patchObject = Object.assign(
           {
-            surveyId: 'BBBBBB',
-            date: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            overallsatsifaction: 1,
-            plantorevisit: true,
-            label: 'BBBBBB',
+            respondableCountsPositive: 1,
+            respondableCountsNegative: 1,
+            respondedCountsNegative: 1,
           },
-          new RvpApiResponse(),
+          new RvpApiManagementResponse(),
         );
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
         const expected = Object.assign(
           {
-            date: currentDate,
+            fd: currentDate,
+            td: currentDate,
           },
           returnedFromService,
         );
@@ -157,7 +161,7 @@ describe('Service Tests', () => {
         });
       });
 
-      it('should not partial update a RvpApiResponse', async () => {
+      it('should not partial update a RvpApiManagementResponse', async () => {
         axiosStub.patch.rejects(error);
 
         return service
@@ -168,22 +172,24 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should return a list of RvpApiResponse', async () => {
+      it('should return a list of RvpApiManagementResponse', async () => {
         const returnedFromService = Object.assign(
           {
-            surveyId: 'BBBBBB',
+            source: 'BBBBBB',
             lodgingId: 1,
-            date: dayjs(currentDate).format(DATE_TIME_FORMAT),
-            overallsatsifaction: 1,
-            customScore: 1,
-            plantorevisit: true,
-            label: 'BBBBBB',
+            fd: dayjs(currentDate).format(DATE_FORMAT),
+            td: dayjs(currentDate).format(DATE_FORMAT),
+            respondableCountsPositive: 1,
+            respondableCountsNegative: 1,
+            respondedCountsPositive: 1,
+            respondedCountsNegative: 1,
           },
           elemDefault,
         );
         const expected = Object.assign(
           {
-            date: currentDate,
+            fd: currentDate,
+            td: currentDate,
           },
           returnedFromService,
         );
@@ -193,7 +199,7 @@ describe('Service Tests', () => {
         });
       });
 
-      it('should not return a list of RvpApiResponse', async () => {
+      it('should not return a list of RvpApiManagementResponse', async () => {
         axiosStub.get.rejects(error);
 
         return service
@@ -204,14 +210,14 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should delete a RvpApiResponse', async () => {
+      it('should delete a RvpApiManagementResponse', async () => {
         axiosStub.delete.resolves({ ok: true });
         return service.delete(123).then(res => {
           expect(res.ok).toBeTruthy();
         });
       });
 
-      it('should not delete a RvpApiResponse', async () => {
+      it('should not delete a RvpApiManagementResponse', async () => {
         axiosStub.delete.rejects(error);
 
         return service

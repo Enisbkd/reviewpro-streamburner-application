@@ -13,7 +13,8 @@
         "rvpApiLodgingCqi": "Rvp Api Lodging Cqi",
         "rvpApiGlobalReview": "Rvp Api Global Review",
         "rvpApiLodgingScore": "Rvp Api Lodging Score",
-        "rvpApiSurvey": "Rvp Api Survey"
+        "rvpApiSurvey": "Rvp Api Survey",
+        "rvpApiManagementResponse": "Rvp Api Management Response"
       },
       "account": {
         "main": "Account",

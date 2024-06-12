@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,8 @@ class RvpApiLodgingCqiResourceIT {
 
     private RvpApiLodgingCqi rvpApiLodgingCqi;
 
+    private RvpApiLodgingCqi insertedRvpApiLodgingCqi;
+
     /**
      * Create an entity for this test.
      *
@@ -120,6 +123,14 @@ class RvpApiLodgingCqiResourceIT {
         rvpApiLodgingCqi = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedRvpApiLodgingCqi != null) {
+            rvpApiLodgingCqiRepository.delete(insertedRvpApiLodgingCqi);
+            insertedRvpApiLodgingCqi = null;
+        }
+    }
+
     @Test
     @Transactional
     void createRvpApiLodgingCqi() throws Exception {
@@ -138,6 +149,8 @@ class RvpApiLodgingCqiResourceIT {
         // Validate the RvpApiLodgingCqi in the database
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         assertRvpApiLodgingCqiUpdatableFieldsEquals(returnedRvpApiLodgingCqi, getPersistedRvpApiLodgingCqi(returnedRvpApiLodgingCqi));
+
+        insertedRvpApiLodgingCqi = returnedRvpApiLodgingCqi;
     }
 
     @Test
@@ -161,7 +174,7 @@ class RvpApiLodgingCqiResourceIT {
     @Transactional
     void getAllRvpApiLodgingCqis() throws Exception {
         // Initialize the database
-        rvpApiLodgingCqiRepository.saveAndFlush(rvpApiLodgingCqi);
+        insertedRvpApiLodgingCqi = rvpApiLodgingCqiRepository.saveAndFlush(rvpApiLodgingCqi);
 
         // Get all the rvpApiLodgingCqiList
         restRvpApiLodgingCqiMockMvc
@@ -183,7 +196,7 @@ class RvpApiLodgingCqiResourceIT {
     @Transactional
     void getRvpApiLodgingCqi() throws Exception {
         // Initialize the database
-        rvpApiLodgingCqiRepository.saveAndFlush(rvpApiLodgingCqi);
+        insertedRvpApiLodgingCqi = rvpApiLodgingCqiRepository.saveAndFlush(rvpApiLodgingCqi);
 
         // Get the rvpApiLodgingCqi
         restRvpApiLodgingCqiMockMvc
@@ -212,7 +225,7 @@ class RvpApiLodgingCqiResourceIT {
     @Transactional
     void putExistingRvpApiLodgingCqi() throws Exception {
         // Initialize the database
-        rvpApiLodgingCqiRepository.saveAndFlush(rvpApiLodgingCqi);
+        insertedRvpApiLodgingCqi = rvpApiLodgingCqiRepository.saveAndFlush(rvpApiLodgingCqi);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -300,7 +313,7 @@ class RvpApiLodgingCqiResourceIT {
     @Transactional
     void partialUpdateRvpApiLodgingCqiWithPatch() throws Exception {
         // Initialize the database
-        rvpApiLodgingCqiRepository.saveAndFlush(rvpApiLodgingCqi);
+        insertedRvpApiLodgingCqi = rvpApiLodgingCqiRepository.saveAndFlush(rvpApiLodgingCqi);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -310,10 +323,9 @@ class RvpApiLodgingCqiResourceIT {
 
         partialUpdatedRvpApiLodgingCqi
             .lodgingId(UPDATED_LODGING_ID)
-            .tendancy(UPDATED_TENDANCY)
+            .averageCurrentPeriod(UPDATED_AVERAGE_CURRENT_PERIOD)
             .name(UPDATED_NAME)
-            .averagePreviousPeriod(UPDATED_AVERAGE_PREVIOUS_PERIOD)
-            .td(UPDATED_TD);
+            .fd(UPDATED_FD);
 
         restRvpApiLodgingCqiMockMvc
             .perform(
@@ -336,7 +348,7 @@ class RvpApiLodgingCqiResourceIT {
     @Transactional
     void fullUpdateRvpApiLodgingCqiWithPatch() throws Exception {
         // Initialize the database
-        rvpApiLodgingCqiRepository.saveAndFlush(rvpApiLodgingCqi);
+        insertedRvpApiLodgingCqi = rvpApiLodgingCqiRepository.saveAndFlush(rvpApiLodgingCqi);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -428,7 +440,7 @@ class RvpApiLodgingCqiResourceIT {
     @Transactional
     void deleteRvpApiLodgingCqi() throws Exception {
         // Initialize the database
-        rvpApiLodgingCqiRepository.saveAndFlush(rvpApiLodgingCqi);
+        insertedRvpApiLodgingCqi = rvpApiLodgingCqiRepository.saveAndFlush(rvpApiLodgingCqi);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

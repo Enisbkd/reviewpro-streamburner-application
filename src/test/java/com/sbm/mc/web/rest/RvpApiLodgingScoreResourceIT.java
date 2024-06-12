@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,8 @@ class RvpApiLodgingScoreResourceIT {
 
     private RvpApiLodgingScore rvpApiLodgingScore;
 
+    private RvpApiLodgingScore insertedRvpApiLodgingScore;
+
     /**
      * Create an entity for this test.
      *
@@ -115,6 +118,14 @@ class RvpApiLodgingScoreResourceIT {
         rvpApiLodgingScore = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedRvpApiLodgingScore != null) {
+            rvpApiLodgingScoreRepository.delete(insertedRvpApiLodgingScore);
+            insertedRvpApiLodgingScore = null;
+        }
+    }
+
     @Test
     @Transactional
     void createRvpApiLodgingScore() throws Exception {
@@ -136,6 +147,8 @@ class RvpApiLodgingScoreResourceIT {
             returnedRvpApiLodgingScore,
             getPersistedRvpApiLodgingScore(returnedRvpApiLodgingScore)
         );
+
+        insertedRvpApiLodgingScore = returnedRvpApiLodgingScore;
     }
 
     @Test
@@ -159,7 +172,7 @@ class RvpApiLodgingScoreResourceIT {
     @Transactional
     void getAllRvpApiLodgingScores() throws Exception {
         // Initialize the database
-        rvpApiLodgingScoreRepository.saveAndFlush(rvpApiLodgingScore);
+        insertedRvpApiLodgingScore = rvpApiLodgingScoreRepository.saveAndFlush(rvpApiLodgingScore);
 
         // Get all the rvpApiLodgingScoreList
         restRvpApiLodgingScoreMockMvc
@@ -180,7 +193,7 @@ class RvpApiLodgingScoreResourceIT {
     @Transactional
     void getRvpApiLodgingScore() throws Exception {
         // Initialize the database
-        rvpApiLodgingScoreRepository.saveAndFlush(rvpApiLodgingScore);
+        insertedRvpApiLodgingScore = rvpApiLodgingScoreRepository.saveAndFlush(rvpApiLodgingScore);
 
         // Get the rvpApiLodgingScore
         restRvpApiLodgingScoreMockMvc
@@ -208,7 +221,7 @@ class RvpApiLodgingScoreResourceIT {
     @Transactional
     void putExistingRvpApiLodgingScore() throws Exception {
         // Initialize the database
-        rvpApiLodgingScoreRepository.saveAndFlush(rvpApiLodgingScore);
+        insertedRvpApiLodgingScore = rvpApiLodgingScoreRepository.saveAndFlush(rvpApiLodgingScore);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -295,7 +308,7 @@ class RvpApiLodgingScoreResourceIT {
     @Transactional
     void partialUpdateRvpApiLodgingScoreWithPatch() throws Exception {
         // Initialize the database
-        rvpApiLodgingScoreRepository.saveAndFlush(rvpApiLodgingScore);
+        insertedRvpApiLodgingScore = rvpApiLodgingScoreRepository.saveAndFlush(rvpApiLodgingScore);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -303,7 +316,7 @@ class RvpApiLodgingScoreResourceIT {
         RvpApiLodgingScore partialUpdatedRvpApiLodgingScore = new RvpApiLodgingScore();
         partialUpdatedRvpApiLodgingScore.setId(rvpApiLodgingScore.getId());
 
-        partialUpdatedRvpApiLodgingScore.surveyId(UPDATED_SURVEY_ID).nps(UPDATED_NPS).customScore(UPDATED_CUSTOM_SCORE);
+        partialUpdatedRvpApiLodgingScore.surveyId(UPDATED_SURVEY_ID);
 
         restRvpApiLodgingScoreMockMvc
             .perform(
@@ -326,7 +339,7 @@ class RvpApiLodgingScoreResourceIT {
     @Transactional
     void fullUpdateRvpApiLodgingScoreWithPatch() throws Exception {
         // Initialize the database
-        rvpApiLodgingScoreRepository.saveAndFlush(rvpApiLodgingScore);
+        insertedRvpApiLodgingScore = rvpApiLodgingScoreRepository.saveAndFlush(rvpApiLodgingScore);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -417,7 +430,7 @@ class RvpApiLodgingScoreResourceIT {
     @Transactional
     void deleteRvpApiLodgingScore() throws Exception {
         // Initialize the database
-        rvpApiLodgingScoreRepository.saveAndFlush(rvpApiLodgingScore);
+        insertedRvpApiLodgingScore = rvpApiLodgingScoreRepository.saveAndFlush(rvpApiLodgingScore);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

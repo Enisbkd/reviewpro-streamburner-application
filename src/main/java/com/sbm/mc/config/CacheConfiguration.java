@@ -56,6 +56,7 @@ public class CacheConfiguration {
             createCache(cm, com.sbm.mc.domain.RvpApiGlobalReview.class.getName());
             createCache(cm, com.sbm.mc.domain.RvpApiLodgingScore.class.getName());
             createCache(cm, com.sbm.mc.domain.RvpApiSurvey.class.getName());
+            createCache(cm, com.sbm.mc.domain.RvpApiManagementResponse.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

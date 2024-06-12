@@ -13,6 +13,7 @@ import com.sbm.mc.domain.RvpApiSurvey;
 import com.sbm.mc.repository.RvpApiSurveyRepository;
 import jakarta.persistence.EntityManager;
 import java.util.UUID;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,8 @@ class RvpApiSurveyResourceIT {
 
     private RvpApiSurvey rvpApiSurvey;
 
+    private RvpApiSurvey insertedRvpApiSurvey;
+
     /**
      * Create an entity for this test.
      *
@@ -109,6 +112,14 @@ class RvpApiSurveyResourceIT {
         rvpApiSurvey = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedRvpApiSurvey != null) {
+            rvpApiSurveyRepository.delete(insertedRvpApiSurvey);
+            insertedRvpApiSurvey = null;
+        }
+    }
+
     @Test
     @Transactional
     void createRvpApiSurvey() throws Exception {
@@ -127,6 +138,8 @@ class RvpApiSurveyResourceIT {
         // Validate the RvpApiSurvey in the database
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         assertRvpApiSurveyUpdatableFieldsEquals(returnedRvpApiSurvey, getPersistedRvpApiSurvey(returnedRvpApiSurvey));
+
+        insertedRvpApiSurvey = returnedRvpApiSurvey;
     }
 
     @Test
@@ -150,7 +163,7 @@ class RvpApiSurveyResourceIT {
     @Transactional
     void getAllRvpApiSurveys() throws Exception {
         // Initialize the database
-        rvpApiSurveyRepository.saveAndFlush(rvpApiSurvey);
+        insertedRvpApiSurvey = rvpApiSurveyRepository.saveAndFlush(rvpApiSurvey);
 
         // Get all the rvpApiSurveyList
         restRvpApiSurveyMockMvc
@@ -171,7 +184,7 @@ class RvpApiSurveyResourceIT {
     @Transactional
     void getRvpApiSurvey() throws Exception {
         // Initialize the database
-        rvpApiSurveyRepository.saveAndFlush(rvpApiSurvey);
+        insertedRvpApiSurvey = rvpApiSurveyRepository.saveAndFlush(rvpApiSurvey);
 
         // Get the rvpApiSurvey
         restRvpApiSurveyMockMvc
@@ -199,7 +212,7 @@ class RvpApiSurveyResourceIT {
     @Transactional
     void putExistingRvpApiSurvey() throws Exception {
         // Initialize the database
-        rvpApiSurveyRepository.saveAndFlush(rvpApiSurvey);
+        insertedRvpApiSurvey = rvpApiSurveyRepository.saveAndFlush(rvpApiSurvey);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -286,7 +299,7 @@ class RvpApiSurveyResourceIT {
     @Transactional
     void partialUpdateRvpApiSurveyWithPatch() throws Exception {
         // Initialize the database
-        rvpApiSurveyRepository.saveAndFlush(rvpApiSurvey);
+        insertedRvpApiSurvey = rvpApiSurveyRepository.saveAndFlush(rvpApiSurvey);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -297,7 +310,9 @@ class RvpApiSurveyResourceIT {
         partialUpdatedRvpApiSurvey
             .overallScoreEnabled(UPDATED_OVERALL_SCORE_ENABLED)
             .outOf(UPDATED_OUT_OF)
+            .name(UPDATED_NAME)
             .active(UPDATED_ACTIVE)
+            .pids(UPDATED_PIDS)
             .primary(UPDATED_PRIMARY);
 
         restRvpApiSurveyMockMvc
@@ -321,7 +336,7 @@ class RvpApiSurveyResourceIT {
     @Transactional
     void fullUpdateRvpApiSurveyWithPatch() throws Exception {
         // Initialize the database
-        rvpApiSurveyRepository.saveAndFlush(rvpApiSurvey);
+        insertedRvpApiSurvey = rvpApiSurveyRepository.saveAndFlush(rvpApiSurvey);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -409,7 +424,7 @@ class RvpApiSurveyResourceIT {
     @Transactional
     void deleteRvpApiSurvey() throws Exception {
         // Initialize the database
-        rvpApiSurveyRepository.saveAndFlush(rvpApiSurvey);
+        insertedRvpApiSurvey = rvpApiSurveyRepository.saveAndFlush(rvpApiSurvey);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

@@ -27,6 +27,10 @@ const RvpApiSurvey = () => import('@/entities/rvp-api-survey/rvp-api-survey.vue'
 const RvpApiSurveyUpdate = () => import('@/entities/rvp-api-survey/rvp-api-survey-update.vue');
 const RvpApiSurveyDetails = () => import('@/entities/rvp-api-survey/rvp-api-survey-details.vue');
 
+const RvpApiManagementResponse = () => import('@/entities/rvp-api-management-response/rvp-api-management-response.vue');
+const RvpApiManagementResponseUpdate = () => import('@/entities/rvp-api-management-response/rvp-api-management-response-update.vue');
+const RvpApiManagementResponseDetails = () => import('@/entities/rvp-api-management-response/rvp-api-management-response-details.vue');
+
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -175,6 +179,30 @@ export default {
       path: 'rvp-api-survey/:rvpApiSurveyId/view',
       name: 'RvpApiSurveyView',
       component: RvpApiSurveyDetails,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'rvp-api-management-response',
+      name: 'RvpApiManagementResponse',
+      component: RvpApiManagementResponse,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'rvp-api-management-response/new',
+      name: 'RvpApiManagementResponseCreate',
+      component: RvpApiManagementResponseUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'rvp-api-management-response/:rvpApiManagementResponseId/edit',
+      name: 'RvpApiManagementResponseEdit',
+      component: RvpApiManagementResponseUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'rvp-api-management-response/:rvpApiManagementResponseId/view',
+      name: 'RvpApiManagementResponseView',
+      component: RvpApiManagementResponseDetails,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

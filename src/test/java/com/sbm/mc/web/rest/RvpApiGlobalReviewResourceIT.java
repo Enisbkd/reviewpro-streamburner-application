@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,8 @@ class RvpApiGlobalReviewResourceIT {
 
     private RvpApiGlobalReview rvpApiGlobalReview;
 
+    private RvpApiGlobalReview insertedRvpApiGlobalReview;
+
     /**
      * Create an entity for this test.
      *
@@ -110,6 +113,14 @@ class RvpApiGlobalReviewResourceIT {
         rvpApiGlobalReview = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedRvpApiGlobalReview != null) {
+            rvpApiGlobalReviewRepository.delete(insertedRvpApiGlobalReview);
+            insertedRvpApiGlobalReview = null;
+        }
+    }
+
     @Test
     @Transactional
     void createRvpApiGlobalReview() throws Exception {
@@ -131,6 +142,8 @@ class RvpApiGlobalReviewResourceIT {
             returnedRvpApiGlobalReview,
             getPersistedRvpApiGlobalReview(returnedRvpApiGlobalReview)
         );
+
+        insertedRvpApiGlobalReview = returnedRvpApiGlobalReview;
     }
 
     @Test
@@ -154,7 +167,7 @@ class RvpApiGlobalReviewResourceIT {
     @Transactional
     void getAllRvpApiGlobalReviews() throws Exception {
         // Initialize the database
-        rvpApiGlobalReviewRepository.saveAndFlush(rvpApiGlobalReview);
+        insertedRvpApiGlobalReview = rvpApiGlobalReviewRepository.saveAndFlush(rvpApiGlobalReview);
 
         // Get all the rvpApiGlobalReviewList
         restRvpApiGlobalReviewMockMvc
@@ -174,7 +187,7 @@ class RvpApiGlobalReviewResourceIT {
     @Transactional
     void getRvpApiGlobalReview() throws Exception {
         // Initialize the database
-        rvpApiGlobalReviewRepository.saveAndFlush(rvpApiGlobalReview);
+        insertedRvpApiGlobalReview = rvpApiGlobalReviewRepository.saveAndFlush(rvpApiGlobalReview);
 
         // Get the rvpApiGlobalReview
         restRvpApiGlobalReviewMockMvc
@@ -201,7 +214,7 @@ class RvpApiGlobalReviewResourceIT {
     @Transactional
     void putExistingRvpApiGlobalReview() throws Exception {
         // Initialize the database
-        rvpApiGlobalReviewRepository.saveAndFlush(rvpApiGlobalReview);
+        insertedRvpApiGlobalReview = rvpApiGlobalReviewRepository.saveAndFlush(rvpApiGlobalReview);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -287,7 +300,7 @@ class RvpApiGlobalReviewResourceIT {
     @Transactional
     void partialUpdateRvpApiGlobalReviewWithPatch() throws Exception {
         // Initialize the database
-        rvpApiGlobalReviewRepository.saveAndFlush(rvpApiGlobalReview);
+        insertedRvpApiGlobalReview = rvpApiGlobalReviewRepository.saveAndFlush(rvpApiGlobalReview);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -295,11 +308,7 @@ class RvpApiGlobalReviewResourceIT {
         RvpApiGlobalReview partialUpdatedRvpApiGlobalReview = new RvpApiGlobalReview();
         partialUpdatedRvpApiGlobalReview.setId(rvpApiGlobalReview.getId());
 
-        partialUpdatedRvpApiGlobalReview
-            .lodgingid(UPDATED_LODGINGID)
-            .prevGri(UPDATED_PREV_GRI)
-            .distribution(UPDATED_DISTRIBUTION)
-            .gri(UPDATED_GRI);
+        partialUpdatedRvpApiGlobalReview.prevGri(UPDATED_PREV_GRI).gri(UPDATED_GRI).fd(UPDATED_FD).td(UPDATED_TD);
 
         restRvpApiGlobalReviewMockMvc
             .perform(
@@ -322,7 +331,7 @@ class RvpApiGlobalReviewResourceIT {
     @Transactional
     void fullUpdateRvpApiGlobalReviewWithPatch() throws Exception {
         // Initialize the database
-        rvpApiGlobalReviewRepository.saveAndFlush(rvpApiGlobalReview);
+        insertedRvpApiGlobalReview = rvpApiGlobalReviewRepository.saveAndFlush(rvpApiGlobalReview);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -412,7 +421,7 @@ class RvpApiGlobalReviewResourceIT {
     @Transactional
     void deleteRvpApiGlobalReview() throws Exception {
         // Initialize the database
-        rvpApiGlobalReviewRepository.saveAndFlush(rvpApiGlobalReview);
+        insertedRvpApiGlobalReview = rvpApiGlobalReviewRepository.saveAndFlush(rvpApiGlobalReview);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

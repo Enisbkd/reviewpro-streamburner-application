@@ -1,0 +1,31 @@
+{
+  "reviewProStreamBurnerApplicationApp": {
+    "rvpApiManagementResponse": {
+      "home": {
+        "title": "Rvp Api Management Responses",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Rvp Api Management Response",
+        "createOrEditLabel": "Create or edit a Rvp Api Management Response",
+        "notFound": "No Rvp Api Management Responses found"
+      },
+      "created": "A new Rvp Api Management Response is created with identifier { param }",
+      "updated": "A Rvp Api Management Response is updated with identifier { param }",
+      "deleted": "A Rvp Api Management Response is deleted with identifier { param }",
+      "delete": {
+        "question": "Are you sure you want to delete Rvp Api Management Response { id }?"
+      },
+      "detail": {
+        "title": "Rvp Api Management Response"
+      },
+      "id": "Id",
+      "source": "Source",
+      "lodgingId": "Lodging Id",
+      "fd": "Fd",
+      "td": "Td",
+      "respondableCountsPositive": "Respondable Counts Positive",
+      "respondableCountsNegative": "Respondable Counts Negative",
+      "respondedCountsPositive": "Responded Counts Positive",
+      "respondedCountsNegative": "Responded Counts Negative"
+    }
+  }
+}

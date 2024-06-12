@@ -1,0 +1,49 @@
+{
+  "annotations": {
+    "changelogDate": "20240612141630"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "source",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lodgingId",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "fd",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "td",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "respondableCountsPositive",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "respondableCountsNegative",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "respondedCountsPositive",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "respondedCountsNegative",
+      "fieldType": "Integer"
+    }
+  ],
+  "name": "RvpApiManagementResponse",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

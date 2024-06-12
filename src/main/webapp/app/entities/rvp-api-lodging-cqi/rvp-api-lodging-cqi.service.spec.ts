@@ -140,8 +140,11 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             lodgingId: 1,
-            change: 'BBBBBB',
+            averageCurrentPeriod: 'BBBBBB',
+            tendancy: 'BBBBBB',
             name: 'BBBBBB',
+            averagePreviousPeriod: 'BBBBBB',
+            fd: dayjs(currentDate).format(DATE_FORMAT),
             td: dayjs(currentDate).format(DATE_FORMAT),
           },
           new RvpApiLodgingCqi(),
